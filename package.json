@@ -18,7 +18,8 @@
   },
   "homepage": "https://github.com/Arraiz/phaser-ej6-webkit#readme",
   "dependencies": {
-    "phaser": "^3.1.0"
+    "phaser": "^3.1.0",
+    "phaser-ce": "^2.10.0"
   },
   "devDependencies": {
     "babel-core": "^6.21.0",
