@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -107893,50 +107893,49 @@ PIXI.canUseNewCanvasBlendModes = function () {
 * "What matters in this life is not what we do but what we do for others, the legacy we leave and the imprint we make." - Eric Meyer
 */
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
 /* 1 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_phaser_ce__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_phaser_ce__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_RenderUtils__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__config_config__ = __webpack_require__(5);
+//pixels
+const CAMERA_WIDTH = 600;
+/* harmony export (immutable) */ __webpack_exports__["b"] = CAMERA_WIDTH;
+ //tamaño de la camara en pixels
+const CAMERA_HEIGHT = 800;
+/* harmony export (immutable) */ __webpack_exports__["a"] = CAMERA_HEIGHT;
+ //tamaño de la camara en pixels
+const WORLD_SIZE_X = CAMERA_WIDTH;
+/* harmony export (immutable) */ __webpack_exports__["h"] = WORLD_SIZE_X;
+
+const WORLD_SIZE_Y = CAMERA_HEIGHT;
+/* harmony export (immutable) */ __webpack_exports__["i"] = WORLD_SIZE_Y;
 
 
 
-//main game state (including the actual game)
-class GameState extends __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.State{
-    
+//units
+//total world units
+const UNITS_X = 12;
+/* harmony export (immutable) */ __webpack_exports__["c"] = UNITS_X;
 
-    constructor(){
-        super()
-      
-    }
-    init(){
-        //center the screen
+const UNITS_Y = 16;
+/* harmony export (immutable) */ __webpack_exports__["d"] = UNITS_Y;
 
-        console.log('GameState Called!');
-        
-    }
+//conversion of one unit in pixel
+const UNIT_X = WORLD_SIZE_X / UNITS_X;
+/* harmony export (immutable) */ __webpack_exports__["e"] = UNIT_X;
 
+const UNIT_Y = WORLD_SIZE_Y / UNITS_Y;
+/* harmony export (immutable) */ __webpack_exports__["f"] = UNIT_Y;
 
-
-
-    render(){
-        //render debug lines
-        __WEBPACK_IMPORTED_MODULE_1__utils_RenderUtils__["b" /* drawDebugWorldLines */](__WEBPACK_IMPORTED_MODULE_2__config_config__["g" /* WORLD_SIZE_X */],__WEBPACK_IMPORTED_MODULE_2__config_config__["h" /* WORLD_SIZE_Y */],__WEBPACK_IMPORTED_MODULE_2__config_config__["d" /* UNIT_X */],__WEBPACK_IMPORTED_MODULE_2__config_config__["e" /* UNIT_Y */],this.game);
-        __WEBPACK_IMPORTED_MODULE_1__utils_RenderUtils__["a" /* drawDebugCameraLines */](__WEBPACK_IMPORTED_MODULE_2__config_config__["b" /* CAMERA_WIDTH */],__WEBPACK_IMPORTED_MODULE_2__config_config__["a" /* CAMERA_HEIGHT */],__WEBPACK_IMPORTED_MODULE_2__config_config__["c" /* UNITS_X */],__WEBPACK_IMPORTED_MODULE_2__config_config__["e" /* UNIT_Y */],this.game,this.camera);
-
-    }
+//center of the world
+const WORLD_CENTER = {
+    'x': UNIT_X * UNITS_X / 2,
+    'y': UNIT_Y * UNITS_Y / 2
 }
-/* harmony export (immutable) */ __webpack_exports__["a"] = GameState;
-
-
-
-
+/* harmony export (immutable) */ __webpack_exports__["g"] = WORLD_CENTER;
 
 
 /***/ }),
@@ -107944,12 +107943,66 @@ class GameState extends __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.State{
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_phaser_ce__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_phaser_ce__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_RenderUtils__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__config_config__ = __webpack_require__(1);
+
+
+
+//main game state (including the actual game)
+class GameState extends __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.State {
+
+
+
+
+   
+    constructor() {
+        super()
+        this.cursors;
+        
+    }
+    init() {
+        this.cursors = this.game.input.keyboard.createCursorKeys();
+        console.log(this.cursors);
+        console.log('GameState Called!');
+        
+    }
+    preload(){
+        this.game.time.advancedTiming = true;
+    }
+    create() {
+
+    }
+    update() {
+
+    }
+
+
+
+
+    render() {
+        //render debug lines
+        __WEBPACK_IMPORTED_MODULE_1__utils_RenderUtils__["b" /* drawDebugWorldLines */](__WEBPACK_IMPORTED_MODULE_2__config_config__["c" /* UNITS_X */], __WEBPACK_IMPORTED_MODULE_2__config_config__["d" /* UNITS_Y */], __WEBPACK_IMPORTED_MODULE_2__config_config__["e" /* UNIT_X */], __WEBPACK_IMPORTED_MODULE_2__config_config__["f" /* UNIT_Y */], this.game);
+        __WEBPACK_IMPORTED_MODULE_1__utils_RenderUtils__["a" /* drawDebugCameraLines */](__WEBPACK_IMPORTED_MODULE_2__config_config__["b" /* CAMERA_WIDTH */], __WEBPACK_IMPORTED_MODULE_2__config_config__["a" /* CAMERA_HEIGHT */], __WEBPACK_IMPORTED_MODULE_2__config_config__["c" /* UNITS_X */], __WEBPACK_IMPORTED_MODULE_2__config_config__["f" /* UNIT_Y */], this.game, this.camera);
+        __WEBPACK_IMPORTED_MODULE_1__utils_RenderUtils__["c" /* moveDebug */](this.cursors, this.camera);
+        this.game.debug.text('FPS: ' + this.game.time.fps || 'FPS: --', 40, 40, "#00ff00");
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = GameState;
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_phaser_ce__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_phaser_ce__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__states_GameState__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__states_BootState__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__config_config__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__states_GameState__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__states_BootState__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__config_config__ = __webpack_require__(1);
 
 
 
@@ -107975,7 +108028,7 @@ const game = new Game();
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -108165,14 +108218,68 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 4 */
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["b"] = drawDebugWorldLines;
+/* harmony export (immutable) */ __webpack_exports__["a"] = drawDebugCameraLines;
+/* harmony export (immutable) */ __webpack_exports__["c"] = moveDebug;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_phaser_ce__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_phaser_ce__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__config_config__ = __webpack_require__(1);
+
+
+function drawDebugWorldLines(x_units, y_units, units_x, units_y, game) {
+    let circle = new __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.Circle(__WEBPACK_IMPORTED_MODULE_1__config_config__["g" /* WORLD_CENTER */].x,__WEBPACK_IMPORTED_MODULE_1__config_config__["g" /* WORLD_CENTER */].y,10);
+    let lineV= new __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.Line();
+    let lineH= new __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.Line();
+    for (let i = 0; i < x_units; i++) {
+     lineV.setTo(units_x * i, 0, units_x * i, units_y * __WEBPACK_IMPORTED_MODULE_1__config_config__["d" /* UNITS_Y */]);
+        game.debug.geom(lineV);
+    }
+    for (let i = 0; i < y_units; i++) {
+        lineH.setTo(0, units_y * i, units_x * units_x, units_y * i);
+        game.debug.geom(lineH);
+    }
+    game.debug.geom(circle, 'rgba(0,255,0,0.5)');
+}
+
+
+function drawDebugCameraLines(cameraW, cameraH, worldW, worldH,game,camera) {
+
+    let lineDiag1 = new __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.Line(camera.x,camera.y,camera.x+camera.width,camera.y+camera.height);
+    let lineDiag2 = new __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.Line(camera.x,camera.y+camera.height,camera.x+camera.width,camera.y);
+    game.debug.geom(lineDiag1,'rgba(255,0,0.5)');
+    game.debug.geom(lineDiag2,'rgba(255,0,0.5)');
+}
+
+
+function moveDebug(cursors, camera) {
+
+    if (cursors.up.isDown) {
+        camera.y = camera.y - __WEBPACK_IMPORTED_MODULE_1__config_config__["e" /* UNIT_X */] / 20
+    } else if (cursors.down.isDown) {
+        camera.y = camera.y + __WEBPACK_IMPORTED_MODULE_1__config_config__["f" /* UNIT_Y */] / 20
+    }
+
+    if (cursors.left.isDown) {
+        camera.x = camera.x - __WEBPACK_IMPORTED_MODULE_1__config_config__["e" /* UNIT_X */] / 20
+    } else if (cursors.right.isDown) {
+        camera.x = camera.x + __WEBPACK_IMPORTED_MODULE_1__config_config__["e" /* UNIT_X */] / 20
+    }
+
+}
+
+/***/ }),
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_phaser_ce__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_phaser_ce__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__GameState__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__config_config__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__GameState__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__config_config__ = __webpack_require__(1);
 
 
 
@@ -108192,7 +108299,7 @@ class GameState extends __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.State 
         this.scale.scaleMode = __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.ScaleManager.SHOW_ALL;
         this.scale.pageAlignHorizontally=true;
         this.scale.pageAlignVertically=true;
-        this.game.world.setBounds(0,0,__WEBPACK_IMPORTED_MODULE_2__config_config__["g" /* WORLD_SIZE_X */],__WEBPACK_IMPORTED_MODULE_2__config_config__["h" /* WORLD_SIZE_Y */]*2);
+        this.game.world.setBounds(0,0,__WEBPACK_IMPORTED_MODULE_2__config_config__["h" /* WORLD_SIZE_X */],__WEBPACK_IMPORTED_MODULE_2__config_config__["i" /* WORLD_SIZE_Y */]);
         console.log('BootState Called!');
         this.game.state.start('GameState');
     }
@@ -108201,82 +108308,6 @@ class GameState extends __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.State 
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = GameState;
 
-
-/***/ }),
-/* 5 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-//pixels
-const CAMERA_WIDTH = 640;
-/* harmony export (immutable) */ __webpack_exports__["b"] = CAMERA_WIDTH;
- //tamaño de la camara en pixels
-const CAMERA_HEIGHT = 360;
-/* harmony export (immutable) */ __webpack_exports__["a"] = CAMERA_HEIGHT;
- //tamaño de la camara en pixels
-const WORLD_SIZE_X = CAMERA_WIDTH;
-/* harmony export (immutable) */ __webpack_exports__["g"] = WORLD_SIZE_X;
-
-const WORLD_SIZE_Y = CAMERA_HEIGHT;
-/* harmony export (immutable) */ __webpack_exports__["h"] = WORLD_SIZE_Y;
-
-
-
-//units
-const UNITS_X = 8;
-/* harmony export (immutable) */ __webpack_exports__["c"] = UNITS_X;
-
-const UNITS_Y = 4;
-/* unused harmony export UNITS_Y */
-
-const UNIT_X = WORLD_SIZE_X / UNITS_X;
-/* harmony export (immutable) */ __webpack_exports__["d"] = UNIT_X;
-
-const UNIT_Y = WORLD_SIZE_Y / UNITS_Y;
-/* harmony export (immutable) */ __webpack_exports__["e"] = UNIT_Y;
-
-const WORLD_CENTER = {
-    'x': UNIT_X * UNITS_X / 2,
-    'y': UNIT_Y * UNITS_Y / 2
-}
-/* harmony export (immutable) */ __webpack_exports__["f"] = WORLD_CENTER;
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["b"] = drawDebugWorldLines;
-/* harmony export (immutable) */ __webpack_exports__["a"] = drawDebugCameraLines;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_phaser_ce__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_phaser_ce__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__config_config__ = __webpack_require__(5);
-
-
-function drawDebugWorldLines(x_units, y_units, units_x, units_y, game) {
-    let circle = new __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.Circle(__WEBPACK_IMPORTED_MODULE_1__config_config__["f" /* WORLD_CENTER */].x,__WEBPACK_IMPORTED_MODULE_1__config_config__["f" /* WORLD_CENTER */].y,10);
-    for (let i = 0; i < x_units; i++) {
-        let lineV = new __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.Line(units_x * i, 0, units_x * i, units_y * 4);
-        game.debug.geom(lineV);
-        
-        
-    }
-    for (let i = 0; i < y_units; i++) {
-        let lineH = new __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.Line(0, units_y * i, units_x * units_x, units_y * i);
-        game.debug.geom(lineH);
-    }
-    game.debug.geom(circle, 'rgba(0,255,0,0.5)');
-}
-
-
-function drawDebugCameraLines(cameraW, cameraH, worldW, worldH,game,camera) {
-
-    let lineDiag1 = new __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.Line(camera.x,camera.y,camera.x+camera.width,camera.y+camera.height);
-    let lineDiag2 = new __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.Line(camera.x,camera.y+camera.height,camera.x+camera.width,camera.y);
-    game.debug.geom(lineDiag1,'rgba(255,0,0.5)');
-    game.debug.geom(lineDiag2,'rgba(255,0,0.5)');
-}
 
 /***/ })
 /******/ ]);

@@ -1,11 +1,15 @@
 const path = require('path');
+const Uglify = require("uglifyjs-webpack-plugin");
 module.exports = {
   entry: path.join(__dirname, 'src', 'main'),
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist')
   },
-  watch:true,
+  plugins: [
+    
+  ],
+  watch: true,
   module: {
     rules: [{
       test: /.jsx?$/,

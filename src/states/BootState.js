@@ -17,7 +17,7 @@ export default class GameState extends Phaser.State {
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.scale.pageAlignHorizontally=true;
         this.scale.pageAlignVertically=true;
-        this.game.world.setBounds(0,0,config.WORLD_SIZE_X,config.WORLD_SIZE_Y*2);
+        this.game.world.setBounds(0,0,config.WORLD_SIZE_X,config.WORLD_SIZE_Y);
         console.log('BootState Called!');
         this.game.state.start('GameState');
     }
