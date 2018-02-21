@@ -108284,12 +108284,8 @@ function moveDebug(cursors, camera, game, centerKey, zoomInKey, zoomOutKey) {
         camera.x = __WEBPACK_IMPORTED_MODULE_1__config_config__["g" /* WORLD_CENTER */].x / 2;
         camera.y = __WEBPACK_IMPORTED_MODULE_1__config_config__["g" /* WORLD_CENTER */].y / 2;
     }
-    else if (zoomInKey.isDown) {
-        game.scale.setGameSize(game.scale.width-__WEBPACK_IMPORTED_MODULE_1__config_config__["e" /* UNIT_X */],game.scale.height-__WEBPACK_IMPORTED_MODULE_1__config_config__["f" /* UNIT_Y */]);
-    }
-    else if (zoomOutKey.isDown) {
-        game.scale.setGameSize(game.scale.width+__WEBPACK_IMPORTED_MODULE_1__config_config__["e" /* UNIT_X */],game.scale.height+__WEBPACK_IMPORTED_MODULE_1__config_config__["f" /* UNIT_Y */]);
-    }
+
+
 
 }
 

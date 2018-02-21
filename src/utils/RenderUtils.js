@@ -42,11 +42,7 @@ export function moveDebug(cursors, camera, game, centerKey, zoomInKey, zoomOutKe
         camera.x = config.WORLD_CENTER.x / 2;
         camera.y = config.WORLD_CENTER.y / 2;
     }
-    else if (zoomInKey.isDown) {
-        game.scale.setGameSize(game.scale.width-config.UNIT_X,game.scale.height-config.UNIT_Y);
-    }
-    else if (zoomOutKey.isDown) {
-        game.scale.setGameSize(game.scale.width+config.UNIT_X,game.scale.height+config.UNIT_Y);
-    }
+
+
 
 }
