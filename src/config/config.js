@@ -1,8 +1,8 @@
 //pixels
 export const CAMERA_WIDTH = 600; //tamaño de la camara en pixels
 export const CAMERA_HEIGHT = 800; //tamaño de la camara en pixels
-export const WORLD_SIZE_X = CAMERA_WIDTH;
-export const WORLD_SIZE_Y = CAMERA_HEIGHT;
+export const WORLD_SIZE_X = CAMERA_WIDTH*2;
+export const WORLD_SIZE_Y = CAMERA_HEIGHT*2;
 
 
 //units

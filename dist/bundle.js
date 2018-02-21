@@ -107907,10 +107907,10 @@ const CAMERA_WIDTH = 600;
 const CAMERA_HEIGHT = 800;
 /* harmony export (immutable) */ __webpack_exports__["a"] = CAMERA_HEIGHT;
  //tamaño de la camara en pixels
-const WORLD_SIZE_X = CAMERA_WIDTH;
+const WORLD_SIZE_X = CAMERA_WIDTH*2;
 /* harmony export (immutable) */ __webpack_exports__["h"] = WORLD_SIZE_X;
 
-const WORLD_SIZE_Y = CAMERA_HEIGHT;
+const WORLD_SIZE_Y = CAMERA_HEIGHT*2;
 /* harmony export (immutable) */ __webpack_exports__["i"] = WORLD_SIZE_Y;
 
 
@@ -107956,36 +107956,48 @@ class GameState extends __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.State 
 
 
 
-   
+
     constructor() {
         super()
         this.cursors;
-        
+        this.centerKey;
+        this.zoomInKey;
+
     }
     init() {
         this.cursors = this.game.input.keyboard.createCursorKeys();
         console.log(this.cursors);
+
         console.log('GameState Called!');
-        
+
     }
-    preload(){
+    preload() {
+        //para los FPS
         this.game.time.advancedTiming = true;
+        //para centrar la camara del juego
+        this.centerKey = this.game.input.keyboard.addKey(__WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.Keyboard.C);
+        //para temas de zoom
+        this.zoomInKey = this.game.input.keyboard.addKey(__WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.Keyboard.Q);
+
+        this.zoomOutKey = this.game.input.keyboard.addKey(__WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.Keyboard.E);
+        console.log(this.game.scale.height);
+        
     }
     create() {
 
+        this.game.scale.setGameSize(__WEBPACK_IMPORTED_MODULE_2__config_config__["h" /* WORLD_SIZE_X */]/2, __WEBPACK_IMPORTED_MODULE_2__config_config__["i" /* WORLD_SIZE_Y */]/2);
+      
     }
     update() {
 
     }
-
-
-
-
     render() {
         //render debug lines
         __WEBPACK_IMPORTED_MODULE_1__utils_RenderUtils__["b" /* drawDebugWorldLines */](__WEBPACK_IMPORTED_MODULE_2__config_config__["c" /* UNITS_X */], __WEBPACK_IMPORTED_MODULE_2__config_config__["d" /* UNITS_Y */], __WEBPACK_IMPORTED_MODULE_2__config_config__["e" /* UNIT_X */], __WEBPACK_IMPORTED_MODULE_2__config_config__["f" /* UNIT_Y */], this.game);
         __WEBPACK_IMPORTED_MODULE_1__utils_RenderUtils__["a" /* drawDebugCameraLines */](__WEBPACK_IMPORTED_MODULE_2__config_config__["b" /* CAMERA_WIDTH */], __WEBPACK_IMPORTED_MODULE_2__config_config__["a" /* CAMERA_HEIGHT */], __WEBPACK_IMPORTED_MODULE_2__config_config__["c" /* UNITS_X */], __WEBPACK_IMPORTED_MODULE_2__config_config__["f" /* UNIT_Y */], this.game, this.camera);
-        __WEBPACK_IMPORTED_MODULE_1__utils_RenderUtils__["c" /* moveDebug */](this.cursors, this.camera);
+        __WEBPACK_IMPORTED_MODULE_1__utils_RenderUtils__["c" /* moveDebug */](this.cursors, this.camera,this.game, this.centerKey, this.zoomInKey,this.zoomOutKey);
+        
+        //FPS 
         this.game.debug.text('FPS: ' + this.game.time.fps || 'FPS: --', 40, 40, "#00ff00");
     }
 }
@@ -108231,11 +108243,11 @@ process.umask = function() { return 0; };
 
 
 function drawDebugWorldLines(x_units, y_units, units_x, units_y, game) {
-    let circle = new __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.Circle(__WEBPACK_IMPORTED_MODULE_1__config_config__["g" /* WORLD_CENTER */].x,__WEBPACK_IMPORTED_MODULE_1__config_config__["g" /* WORLD_CENTER */].y,10);
-    let lineV= new __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.Line();
-    let lineH= new __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.Line();
+    let circle = new __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.Circle(__WEBPACK_IMPORTED_MODULE_1__config_config__["g" /* WORLD_CENTER */].x, __WEBPACK_IMPORTED_MODULE_1__config_config__["g" /* WORLD_CENTER */].y, 10);
+    let lineV = new __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.Line();
+    let lineH = new __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.Line();
     for (let i = 0; i < x_units; i++) {
-     lineV.setTo(units_x * i, 0, units_x * i, units_y * __WEBPACK_IMPORTED_MODULE_1__config_config__["d" /* UNITS_Y */]);
+        lineV.setTo(units_x * i, 0, units_x * i, units_y * __WEBPACK_IMPORTED_MODULE_1__config_config__["d" /* UNITS_Y */]);
         game.debug.geom(lineV);
     }
     for (let i = 0; i < y_units; i++) {
@@ -108246,16 +108258,16 @@ function drawDebugWorldLines(x_units, y_units, units_x, units_y, game) {
 }
 
 
-function drawDebugCameraLines(cameraW, cameraH, worldW, worldH,game,camera) {
+function drawDebugCameraLines(cameraW, cameraH, worldW, worldH, game, camera) {
 
-    let lineDiag1 = new __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.Line(camera.x,camera.y,camera.x+camera.width,camera.y+camera.height);
-    let lineDiag2 = new __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.Line(camera.x,camera.y+camera.height,camera.x+camera.width,camera.y);
-    game.debug.geom(lineDiag1,'rgba(255,0,0.5)');
-    game.debug.geom(lineDiag2,'rgba(255,0,0.5)');
+    let lineDiag1 = new __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.Line(camera.x, camera.y, camera.x + camera.width, camera.y + camera.height);
+    let lineDiag2 = new __WEBPACK_IMPORTED_MODULE_0_phaser_ce___default.a.Line(camera.x, camera.y + camera.height, camera.x + camera.width, camera.y);
+    game.debug.geom(lineDiag1, 'rgba(255,0,0.5)');
+    game.debug.geom(lineDiag2, 'rgba(255,0,0.5)');
 }
 
 
-function moveDebug(cursors, camera) {
+function moveDebug(cursors, camera, game, centerKey, zoomInKey, zoomOutKey) {
 
     if (cursors.up.isDown) {
         camera.y = camera.y - __WEBPACK_IMPORTED_MODULE_1__config_config__["e" /* UNIT_X */] / 20
@@ -108267,6 +108279,16 @@ function moveDebug(cursors, camera) {
         camera.x = camera.x - __WEBPACK_IMPORTED_MODULE_1__config_config__["e" /* UNIT_X */] / 20
     } else if (cursors.right.isDown) {
         camera.x = camera.x + __WEBPACK_IMPORTED_MODULE_1__config_config__["e" /* UNIT_X */] / 20
+    }
+    if (centerKey.isDown) {
+        camera.x = __WEBPACK_IMPORTED_MODULE_1__config_config__["g" /* WORLD_CENTER */].x / 2;
+        camera.y = __WEBPACK_IMPORTED_MODULE_1__config_config__["g" /* WORLD_CENTER */].y / 2;
+    }
+    else if (zoomInKey.isDown) {
+        game.scale.setGameSize(game.scale.width-__WEBPACK_IMPORTED_MODULE_1__config_config__["e" /* UNIT_X */],game.scale.height-__WEBPACK_IMPORTED_MODULE_1__config_config__["f" /* UNIT_Y */]);
+    }
+    else if (zoomOutKey.isDown) {
+        game.scale.setGameSize(game.scale.width+__WEBPACK_IMPORTED_MODULE_1__config_config__["e" /* UNIT_X */],game.scale.height+__WEBPACK_IMPORTED_MODULE_1__config_config__["f" /* UNIT_Y */]);
     }
 
 }
